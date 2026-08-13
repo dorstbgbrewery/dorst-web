@@ -32,7 +32,7 @@ https://dorstbgbrewery.github.io/dorst-web/brand-book/
 
 No separate hosting needed — it deploys with the site. Send that URL to reviewers; remove `public/brand-book/` (and the partner-portal link in `B2BPortalClient.tsx`) when you no longer need it.
 
-On production (`dorst.bg`), the partner portal links to the same path after access-code verification. On static Pages there is no real auth — the URL is public if someone knows it.
+Partner portal (`/partners`) authenticates against the ERP via `NEXT_PUBLIC_ERP_API_URL` (EIK + emailed password). That value is the **ERP website origin** (local `http://localhost:<erp-port>`, staging/prod e.g. `https://dorst-erp-crm.vercel.app`). Put it in `dorst-web/.env.local` for local, and as GitHub repo secret `NEXT_PUBLIC_ERP_API_URL` for Pages — **not** in ERP `_inputs/secrets.staging.env`. Rebuild Pages after changing the secret. Tracking at `/partners/tracking` uses the partner session.
 
 ### GitHub Pages (static preview only)
 

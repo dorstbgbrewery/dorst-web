@@ -1,11 +1,14 @@
+import type { CSSProperties } from 'react'
+
 interface WhaleSVGProps {
   size?: 'nav' | 'hero' | 'gate'
   fill?: string
   className?: string
+  style?: CSSProperties
 }
 
 // Extracted from index.html lines 762–850
-export function WhaleSVG({ size = 'hero', fill = '#0E0E10', className }: WhaleSVGProps) {
+export function WhaleSVG({ size = 'hero', fill = '#0E0E10', className, style }: WhaleSVGProps) {
   if (size === 'nav') {
     return (
       <svg
@@ -15,6 +18,7 @@ export function WhaleSVG({ size = 'hero', fill = '#0E0E10', className }: WhaleSV
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className={className}
+        style={style}
         aria-hidden="true"
       >
         <path d="M 8 30 Q 8 14 28 12 Q 52 10 62 24 Q 70 34 64 42 Q 56 52 36 50 Q 16 48 8 36 Z" fill={fill} />

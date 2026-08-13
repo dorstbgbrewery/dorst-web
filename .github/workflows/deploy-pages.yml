@@ -39,6 +39,9 @@ jobs:
         env:
           GITHUB_PAGES: 'true'
           GITHUB_REPOSITORY: ${{ github.repository }}
+          # Public ERP origin (not a Supabase key). Set repo secret NEXT_PUBLIC_ERP_API_URL
+          # e.g. https://dorst-erp-crm.vercel.app — baked into the static bundle at build time.
+          NEXT_PUBLIC_ERP_API_URL: ${{ secrets.NEXT_PUBLIC_ERP_API_URL }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
