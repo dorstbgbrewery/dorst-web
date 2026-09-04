@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// Age gate applies to dorst.bg only — not partners.dorst.bg
+// Age gate applies to the marketing site — partner portal is at /partners
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Skip age gate for: age-gate pages, static assets, API routes, Next.js internals
+  // Skip age gate for: age-gate pages, partner portal, static assets, API routes, Next.js internals
   if (
     pathname.startsWith('/age-gate') ||
+    pathname.startsWith('/partners') ||
     pathname.startsWith('/brand-book') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/_next') ||

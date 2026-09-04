@@ -96,7 +96,7 @@ export function AboutPageClient() {
           <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.01em', marginBottom: 8 }}>{t('tradeTitle')}</h3>
           <p style={{ fontSize: 14, color: 'var(--ink-soft)', fontWeight: 300 }}>{t('tradeBody')}</p>
         </div>
-        <Link href="https://partners.dorst.bg" style={{ flexShrink: 0, display: 'inline-block', background: 'var(--ink)', color: 'var(--foam)', border: '2px solid var(--ink)', padding: '12px 24px', fontSize: 14, fontWeight: 700, borderRadius: 'var(--radius-pill)', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+        <Link href="/partners" style={{ flexShrink: 0, display: 'inline-block', background: 'var(--ink)', color: 'var(--foam)', border: '2px solid var(--ink)', padding: '12px 24px', fontSize: 14, fontWeight: 700, borderRadius: 'var(--radius-pill)', textDecoration: 'none', whiteSpace: 'nowrap' }}>
           {t('tradeCta')}
         </Link>
       </div>

@@ -1,6 +1,6 @@
 # Dorst Brewery — website
 
-Next.js site for [Dorst Brewery](https://dorst.bg).
+Next.js site for [Dorst Brewery](https://dorst.top).
 
 ## Local development
 
@@ -13,11 +13,19 @@ Open http://localhost:3000 (or the port Next.js prints if 3000 is busy).
 
 ## Deploy
 
-### Vercel (recommended)
+### Vercel (primary — dorst.top)
 
-This app uses middleware, API routes (Stripe), and server features. **Vercel** is the primary host — connect the repo and deploy from `main`.
+Connect the repo and deploy from `main`. Add custom domain **dorst.top**. Do **not** set `GITHUB_PAGES` on Vercel (that would add a `/dorst-web` basePath).
 
 Copy `.env.example` to `.env.local` and fill in the values for local development.
+
+Production env on Vercel must include:
+
+```env
+NEXT_PUBLIC_ERP_API_URL=https://app.dorst.top
+```
+
+Partner portal lives at **https://dorst.top/partners/** and calls the ERP at `app.dorst.top`.
 
 ### Brand assets
 
@@ -32,7 +40,7 @@ https://dorstbgbrewery.github.io/dorst-web/brand-book/
 
 No separate hosting needed — it deploys with the site. Send that URL to reviewers; remove `public/brand-book/` (and the partner-portal link in `B2BPortalClient.tsx`) when you no longer need it.
 
-Partner portal (`/partners`) authenticates against the ERP via `NEXT_PUBLIC_ERP_API_URL` (EIK + emailed password). That value is the **ERP website origin** (local `http://localhost:<erp-port>`, staging/prod e.g. `https://dorst-erp-crm.vercel.app`). Put it in `dorst-web/.env.local` for local, and as GitHub repo secret `NEXT_PUBLIC_ERP_API_URL` for Pages — **not** in ERP `_inputs/secrets.staging.env`. Rebuild Pages after changing the secret. Tracking at `/partners/tracking` uses the partner session.
+Partner portal (`/partners`) authenticates against the ERP via `NEXT_PUBLIC_ERP_API_URL` (EIK + emailed password). That value is the **ERP website origin** (local `http://localhost:<erp-port>`, production `https://app.dorst.top`). Put it in `dorst-web/.env.local` for local, and as a Vercel env for `dorst.top`. Tracking at `/partners/tracking` uses the partner session.
 
 ### GitHub Pages (static preview only)
 
