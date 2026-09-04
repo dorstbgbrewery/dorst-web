@@ -121,6 +121,14 @@
     "intro": "Всяко място е подбрано ръчно — грижат се за това, което наливат. Намери ни на кран и на щанда.",
     "barsSection": "Барове",
     "shopsSection": "Магазини за бира",
+    "stockistsSection": "Къде да ни намериш",
+    "cityFallback": "София",
+    "tiers": {
+      "regular": "Редовен",
+      "repeat": "Партньор"
+    },
+    "erpFallbackNote": "Показваме примерни места — ERP locations API не е достъпен.",
+    "erpEmptyNote": "Няма редовни/повторни клиенти с Maps линк. Добави nickname + maps URL на клиента с поръчките (не само на prospect записа).",
     "stockPrompt": "Искаш да предлагаш Dorst?",
     "stockBody": "Ако управляваш бар, ресторант или магазин и искаш да ни добавиш в менюто, <emailLink>пиши на sales@dorst.bg</emailLink> или посети нашия <portalLink>партньорски портал</portalLink>.",
     "types": {

@@ -52,7 +52,7 @@ export function ShopClient({ beers }: Props) {
               borderBottom: '1px solid var(--line)',
             }}
           >
-            <BeerLabel beer={beer} size="sm" variant="card" nameOverride={beerText.name} />
+            <BeerLabel beer={beer} size="sm" variant="card" preferCard nameOverride={beerText.name} style={{ width: 56, height: 80, borderRadius: 4 }} />
 
             {/* Info */}
             <div>

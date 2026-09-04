@@ -9,9 +9,9 @@ function UntappdIcon({ size = 18 }: { size?: number }) {
 }
 
 const SOCIAL_LINKS = [
-  { name: 'Instagram', href: '#', Icon: Instagram },
-  { name: 'Facebook', href: '#', Icon: Facebook },
-  { name: 'Untappd', href: '#', Icon: UntappdIcon },
+  { name: 'Instagram', href: 'https://www.instagram.com/dorstbeer', Icon: Instagram },
+  { name: 'Facebook', href: 'https://www.facebook.com/share/1BycoZBoJy/?mibextid=wwXIfr', Icon: Facebook },
+  { name: 'Untappd', href: 'https://untappd.com/Dorstco/beer', Icon: UntappdIcon },
 ] as const
 
 interface SocialLinksProps {

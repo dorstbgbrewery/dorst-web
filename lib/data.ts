@@ -27,7 +27,10 @@ export interface Beer {
   seasonal: boolean
   active: boolean
   hasLabel: boolean
+  /** Full label artwork for detail pages */
   labelSrc?: string
+  /** Center-panel crop for grid cards */
+  labelCardSrc?: string
   labelType?: 'image' | 'pdf'
   tags: ('unfiltered' | 'unpasteurised' | 'vegan')[]
   priceB2C?: number
@@ -64,6 +67,7 @@ export const beers: Beer[] = [
     active: true,
     hasLabel: true,
     labelSrc: '/labels/lion-heart.png',
+    labelCardSrc: '/labels/cards/lion-heart.png',
     labelType: 'image',
     tags: ['unfiltered', 'unpasteurised', 'vegan'],
     priceB2C: 3.20,
@@ -98,6 +102,7 @@ export const beers: Beer[] = [
     active: true,
     hasLabel: true,
     labelSrc: '/labels/alma.png',
+    labelCardSrc: '/labels/cards/alma.png',
     labelType: 'image',
     tags: ['unfiltered', 'unpasteurised', 'vegan'],
     priceB2C: 3.20,
@@ -132,6 +137,7 @@ export const beers: Beer[] = [
     active: true,
     hasLabel: true,
     labelSrc: '/labels/hippy-shake.png',
+    labelCardSrc: '/labels/cards/hippy-shake.png',
     labelType: 'image',
     tags: ['unfiltered', 'unpasteurised', 'vegan'],
     priceB2C: 3.40,
@@ -166,6 +172,7 @@ export const beers: Beer[] = [
     active: true,
     hasLabel: true,
     labelSrc: '/labels/alexis.png',
+    labelCardSrc: '/labels/cards/alexis.png',
     labelType: 'image',
     tags: ['unfiltered', 'unpasteurised', 'vegan'],
     priceB2C: 2.90,
@@ -199,8 +206,9 @@ export const beers: Beer[] = [
     seasonal: false,
     active: true,
     hasLabel: true,
-    labelSrc: '/labels/pulpa-fiction.pdf',
-    labelType: 'pdf',
+    labelSrc: '/labels/pulpa-fiction.png',
+    labelCardSrc: '/labels/cards/pulpa-fiction.png',
+    labelType: 'image',
     tags: ['unfiltered', 'unpasteurised', 'vegan'],
     priceB2C: 3.60,
   },
@@ -233,8 +241,9 @@ export const beers: Beer[] = [
     seasonal: false,
     active: true,
     hasLabel: true,
-    labelSrc: '/labels/full-breakfast-stout.pdf',
-    labelType: 'pdf',
+    labelSrc: '/labels/breakfast.png',
+    labelCardSrc: '/labels/cards/full-breakfast-stout.png',
+    labelType: 'image',
     tags: ['unfiltered', 'unpasteurised'],
     priceB2C: 3.60,
   },
@@ -300,6 +309,7 @@ export const beers: Beer[] = [
     active: true,
     hasLabel: true,
     labelSrc: '/labels/evrozona.png',
+    labelCardSrc: '/labels/cards/evrozona.png',
     labelType: 'image',
     tags: ['unfiltered', 'unpasteurised', 'vegan'],
     priceB2C: 3.20,

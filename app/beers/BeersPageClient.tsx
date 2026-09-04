@@ -7,6 +7,18 @@ import { useLocale } from '@/components/LocaleProvider'
 import { pickBeerText } from '@/lib/locale-content'
 import { BeerLabel } from '@/components/beer/BeerLabel'
 
+const TAG_PILL: React.CSSProperties = {
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '0.1em',
+  textTransform: 'uppercase',
+  padding: '5px 10px',
+  border: '1.5px solid var(--ink)',
+  borderRadius: 'var(--radius-pill)',
+  color: 'var(--ink)',
+  background: 'var(--foam)',
+}
+
 export function BeersPageClient() {
   const t = useTranslations('Beers')
   const { locale } = useLocale()
@@ -53,6 +65,7 @@ export function BeersPageClient() {
 
 function BeerCard({ beer, locale, t }: { beer: Beer; locale: 'bg' | 'en'; t: ReturnType<typeof useTranslations<'Beers'>> }) {
   const text = pickBeerText(beer, locale)
+  const hasArt = Boolean(beer.labelCardSrc || (beer.labelSrc && beer.labelType === 'image'))
 
   return (
     <Link
@@ -69,15 +82,49 @@ function BeerCard({ beer, locale, t }: { beer: Beer; locale: 'bg' | 'en'; t: Ret
       }}
       className="beer-card"
     >
-      <div style={{ background: beer.accentHex, aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+      <div
+        style={{
+          background: beer.accentHex,
+          aspectRatio: '3/4',
+          padding: 16,
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            border: '3px solid var(--ink)',
+            borderRadius: 2,
+            overflow: 'hidden',
+            background: beer.accentHex,
+            boxShadow: '0 8px 20px rgba(0,0,0,0.12)',
+          }}
+        >
+          {hasArt ? (
+            <BeerLabel beer={beer} variant="panel" preferCard panelFit="cover" nameOverride={text.name} />
+          ) : (
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <BeerLabel beer={beer} size="lg" nameOverride={text.name} />
+            </div>
+          )}
+        </div>
         {beer.seasonal && (
-          <span style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(0,0,0,0.2)', color: 'rgba(255,255,255,0.9)', fontSize: 9, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 100 }}>
+          <span style={{
+            position: 'absolute', top: 20, right: 20, zIndex: 2,
+            background: 'var(--foam)', color: 'var(--ink)',
+            fontSize: 10, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
+            padding: '5px 12px', borderRadius: 100, border: '1.5px solid var(--ink)',
+          }}>
             {t('seasonal')}
           </span>
         )}
-                <BeerLabel beer={beer} size="sm" nameOverride={text.name} />
       </div>
-      <div style={{ padding: '20px 20px 24px' }}>
+      <div style={{ padding: '20px 20px 24px', background: 'var(--paper)' }}>
         <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 6 }}>
           {text.style}
         </div>
@@ -99,7 +146,7 @@ function BeerCard({ beer, locale, t }: { beer: Beer; locale: 'bg' | 'en'; t: Ret
         {beer.tags.length > 0 && (
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 12 }}>
             {beer.tags.map(tag => (
-              <span key={tag} style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 8px', border: '1px solid var(--line)', borderRadius: 'var(--radius-pill)', color: 'var(--ink-soft)' }}>
+              <span key={tag} style={TAG_PILL}>
                 {t(`tags.${tag}`)}
               </span>
             ))}

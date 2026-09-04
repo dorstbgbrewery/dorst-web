@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { beers, venues, stats } from '@/lib/data'
 import { WhaleHero } from '@/components/whale/WhaleHero'
@@ -8,11 +9,19 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 import { BeerLabel } from '@/components/beer/BeerLabel'
 import { useLocale } from '@/components/LocaleProvider'
 import { pickBeerText, pickVenueText } from '@/lib/locale-content'
+import { fetchPublicLocations } from '@/lib/public-api'
 
 // Core beers shown in the homepage grid (4 cans)
 const HOMEPAGE_BEERS = ['lion-heart', 'hippy-shake', 'alexis', 'pulpa-fiction']
 
 const STAT_KEYS = ['capacity', 'styles', 'rotation', 'established'] as const
+
+type HomeVenue = {
+  id: string
+  name: string
+  googleMapsUrl: string
+  subtitle: string
+}
 
 export default function HomePage() {
   const t = useTranslations('Home')
@@ -22,7 +31,31 @@ export default function HomePage() {
   const homeBeers = beers.filter(b => HOMEPAGE_BEERS.includes(b.id))
   const seasonal = beers.find(b => b.seasonal && b.active) ?? beers[1]
   const seasonalText = pickBeerText(seasonal, locale)
-  const activeVenues = venues.filter(v => v.active)
+  const staticVenues: HomeVenue[] = venues.filter(v => v.active).map(v => ({
+    id: v.id,
+    name: v.name,
+    googleMapsUrl: v.googleMapsUrl,
+    subtitle: pickVenueText(v, locale),
+  }))
+  const [activeVenues, setActiveVenues] = useState(staticVenues)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchPublicLocations()
+      .then((locations) => {
+        if (cancelled || locations.length === 0) return
+        setActiveVenues(
+          locations.slice(0, 6).map((l) => ({
+            id: l.id,
+            name: l.name,
+            googleMapsUrl: l.maps_url,
+            subtitle: l.city ?? tLoc('cityFallback'),
+          }))
+        )
+      })
+      .catch(() => {/* keep static */})
+    return () => { cancelled = true }
+  }, [tLoc])
 
   return (
     <>
@@ -209,30 +242,19 @@ export default function HomePage() {
                   e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)'
                 }}
               >
-                {/* Gradient overlay */}
+                {/* Full-bleed card crop */}
+                <BeerLabel beer={beer} variant="panel" preferCard nameOverride={beerText.name} />
+
+                {/* Gradient overlay for text legibility */}
                 <div
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    background: 'linear-gradient(transparent 40%, rgba(0,0,0,0.6))',
+                    background: 'linear-gradient(transparent 35%, rgba(0,0,0,0.72))',
                     zIndex: 1,
+                    pointerEvents: 'none',
                   }}
                 />
-
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -60%)',
-                    zIndex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <BeerLabel beer={beer} size="md" nameOverride={beerText.name} />
-                </div>
 
                 {/* Content */}
                 <div
@@ -525,7 +547,7 @@ export default function HomePage() {
           </div>
 
           <div className="desktop-only" style={{ flexShrink: 0 }}>
-            <BeerLabel beer={seasonal} size="lg" nameOverride={seasonalText.name} />
+            <BeerLabel beer={seasonal} size="lg" preferCard nameOverride={seasonalText.name} style={{ width: 160, height: 240, borderRadius: 8, overflow: 'hidden', border: '4px solid var(--ink)' }} />
           </div>
         </div>
       </ScrollReveal>
@@ -633,7 +655,7 @@ export default function HomePage() {
                       borderRadius: 100,
                     }}
                   >
-                    {tLoc(`types.${venue.type}`)}
+                    {venue.subtitle}
                   </span>
                   <span style={{ opacity: 0.3, fontSize: 16 }}>→</span>
                 </div>

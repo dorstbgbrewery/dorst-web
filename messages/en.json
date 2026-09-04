@@ -121,6 +121,14 @@
     "intro": "Each venue is handpicked — they care about what they pour. Find us on tap and on the shelf.",
     "barsSection": "Bars",
     "shopsSection": "Bottle Shops",
+    "stockistsSection": "Where to find us",
+    "cityFallback": "Sofia",
+    "tiers": {
+      "regular": "Regular",
+      "repeat": "Stockist"
+    },
+    "erpFallbackNote": "Showing sample venues — ERP locations API unavailable.",
+    "erpEmptyNote": "No regular/repeat stockists with a Maps link yet. Add nickname + maps URL on the ordering client (not only the prospect duplicate).",
     "stockPrompt": "Want to stock Dorst?",
     "stockBody": "If you run a bar, restaurant, or bottle shop and want to add us to your lineup, <emailLink>email sales@dorst.bg</emailLink> or visit our <portalLink>partner portal</portalLink>.",
     "types": {
