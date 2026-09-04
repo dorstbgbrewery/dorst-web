@@ -26,6 +26,10 @@ export type RegistryDraft = {
     country: string;
   } | null;
   vat_number: string | null;
+  vat_registered?: boolean;
+  representative_name?: string | null;
+  owner_name?: string | null;
+  registry_url?: string | null;
   email: string;
 };
 
