@@ -23,6 +23,18 @@ type HomeVenue = {
   subtitle: string
 }
 
+/** Remember last ERP list so remounting home does not flash the old static sample venues. */
+let cachedHomeVenues: HomeVenue[] | null = null
+
+function fallbackVenues(locale: 'bg' | 'en'): HomeVenue[] {
+  return venues.filter(v => v.active).map(v => ({
+    id: v.id,
+    name: v.name,
+    googleMapsUrl: v.googleMapsUrl,
+    subtitle: pickVenueText(v, locale),
+  }))
+}
+
 export default function HomePage() {
   const t = useTranslations('Home')
   const tStats = useTranslations('Stats')
@@ -31,31 +43,34 @@ export default function HomePage() {
   const homeBeers = beers.filter(b => HOMEPAGE_BEERS.includes(b.id))
   const seasonal = beers.find(b => b.seasonal && b.active) ?? beers[1]
   const seasonalText = pickBeerText(seasonal, locale)
-  const staticVenues: HomeVenue[] = venues.filter(v => v.active).map(v => ({
-    id: v.id,
-    name: v.name,
-    googleMapsUrl: v.googleMapsUrl,
-    subtitle: pickVenueText(v, locale),
-  }))
-  const [activeVenues, setActiveVenues] = useState(staticVenues)
+  const [activeVenues, setActiveVenues] = useState<HomeVenue[]>(
+    () => cachedHomeVenues ?? []
+  )
 
   useEffect(() => {
     let cancelled = false
     fetchPublicLocations()
       .then((locations) => {
-        if (cancelled || locations.length === 0) return
-        setActiveVenues(
-          locations.slice(0, 6).map((l) => ({
-            id: l.id,
-            name: l.name,
-            googleMapsUrl: l.maps_url,
-            subtitle: l.city ?? tLoc('cityFallback'),
-          }))
-        )
+        if (cancelled) return
+        if (locations.length === 0) {
+          if (!cachedHomeVenues) setActiveVenues([])
+          return
+        }
+        const next = locations.slice(0, 6).map((l) => ({
+          id: l.id,
+          name: l.name,
+          googleMapsUrl: l.maps_url,
+          subtitle: l.city ?? tLoc('cityFallback'),
+        }))
+        cachedHomeVenues = next
+        setActiveVenues(next)
       })
-      .catch(() => {/* keep static */})
+      .catch(() => {
+        if (cancelled || cachedHomeVenues) return
+        setActiveVenues(fallbackVenues(locale))
+      })
     return () => { cancelled = true }
-  }, [tLoc])
+  }, [tLoc, locale])
 
   return (
     <>
