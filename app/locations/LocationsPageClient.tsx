@@ -56,7 +56,7 @@ export function LocationsPageClient() {
               <a href="mailto:sales@dorst.bg" style={{ color: 'var(--ink)', fontWeight: 600, textDecoration: 'underline' }}>{chunks}</a>
             ),
             portalLink: (chunks) => (
-              <a href="https://partners.dorst.bg" style={{ color: 'var(--ink)', fontWeight: 600, textDecoration: 'underline' }}>{chunks}</a>
+              <a href="/partners" style={{ color: 'var(--ink)', fontWeight: 600, textDecoration: 'underline' }}>{chunks}</a>
             ),
           })}
         </div>

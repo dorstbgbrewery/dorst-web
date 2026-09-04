@@ -124,7 +124,7 @@ export default function HomePage() {
               {t('cta')}
             </Link>
             <Link
-              href="https://partners.dorst.bg"
+              href="/partners"
               style={{
                 display: 'inline-block',
                 background: 'transparent',
@@ -672,7 +672,7 @@ export default function HomePage() {
           </div>
 
           <Link
-            href="https://partners.dorst.bg"
+            href="/partners"
             style={{
               display: 'inline-block',
               flexShrink: 0,
