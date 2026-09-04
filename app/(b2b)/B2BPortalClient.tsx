@@ -495,10 +495,74 @@ export function B2BPortalClient() {
         {screen === 2 && registryDraft && (
           <div>
             <h1 style={{ fontSize: 36, fontWeight: 700, marginBottom: 10 }}>Verify company details</h1>
-            <p style={{ fontSize: 15, color: '#706E66', marginBottom: 28 }}>Confirm Trade Registry data before we create your account.</p>
+            <p style={{ fontSize: 15, color: '#706E66', marginBottom: 28 }}>
+              Confirm Trade Registry data before we create your account. Edit contact fields if needed.
+            </p>
             <div style={{ background: 'white', border: '1.5px solid var(--line)', borderRadius: 10, padding: 44, display: 'grid', gap: 16 }}>
+              <div style={{ background: '#F7F5F0', borderRadius: 8, padding: 16, display: 'grid', gap: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#706E66' }}>
+                  From Trade Registry
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 8, fontSize: 14 }}>
+                  <span style={{ color: '#706E66' }}>ЕИК</span>
+                  <span style={{ fontWeight: 600 }}>{registryDraft.eik}</span>
+                  <span style={{ color: '#706E66' }}>Legal name</span>
+                  <span style={{ fontWeight: 600 }}>{registryDraft.legal_name}</span>
+                  {registryDraft.latin_name && (
+                    <>
+                      <span style={{ color: '#706E66' }}>Latin name</span>
+                      <span>{registryDraft.latin_name}</span>
+                    </>
+                  )}
+                  <span style={{ color: '#706E66' }}>VAT</span>
+                  <span>
+                    {registryDraft.vat_number
+                      ? registryDraft.vat_number
+                      : registryDraft.vat_registered
+                        ? 'Registered'
+                        : 'Not registered'}
+                  </span>
+                  {registryDraft.billing_address && (
+                    <>
+                      <span style={{ color: '#706E66' }}>Address</span>
+                      <span>
+                        {[
+                          registryDraft.billing_address.line1,
+                          registryDraft.billing_address.line2,
+                          `${registryDraft.billing_address.postal_code} ${registryDraft.billing_address.city}`.trim(),
+                          registryDraft.billing_address.country,
+                        ]
+                          .filter(Boolean)
+                          .join(', ')}
+                      </span>
+                    </>
+                  )}
+                  {registryDraft.representative_name && (
+                    <>
+                      <span style={{ color: '#706E66' }}>Representative</span>
+                      <span>{registryDraft.representative_name}</span>
+                    </>
+                  )}
+                  {registryDraft.owner_name && (
+                    <>
+                      <span style={{ color: '#706E66' }}>Owner(s)</span>
+                      <span>{registryDraft.owner_name}</span>
+                    </>
+                  )}
+                </div>
+                {registryDraft.registry_url && (
+                  <a
+                    href={registryDraft.registry_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)', marginTop: 4 }}
+                  >
+                    Open in Trade Registry ↗
+                  </a>
+                )}
+              </div>
               <div>
-                <label style={{ fontSize: 13, fontWeight: 600 }}>Legal name</label>
+                <label style={{ fontSize: 13, fontWeight: 600 }}>Display name (editable)</label>
                 <input value={companyName} onChange={(e) => setCompanyName(e.target.value)} style={inputStyle} />
               </div>
               <div>
